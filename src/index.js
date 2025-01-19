@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const dotenv = require("dotenv");
 const axios = require("axios");
 const twilio = require("twilio");
+const cors = require("cors");
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -13,11 +14,13 @@ dotenv.config();
 const prisma = new PrismaClient();
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Employee Directory API");
+  res.send("Employee Directory API :> AsoH Chrishtiana Mbeh");
 });
 
 //app routes
