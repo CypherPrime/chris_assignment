@@ -20,7 +20,7 @@ app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Employee Directory API :> AsoH Chrishtiana Mbeh");
+  res.send("Employee Directory API :> Asoh Chrishtian Mbeh");
 });
 
 //app routes

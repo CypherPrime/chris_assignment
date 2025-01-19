@@ -38,6 +38,7 @@ model Department {
 model Role {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
+  salary String
   employees   Employee[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
