@@ -1,6 +1,12 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const dotenv = require("dotenv");
+const axios = require("axios");
+const twilio = require("twilio");
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = twilio(accountSid, authToken);
 
 dotenv.config();
 
@@ -92,6 +98,34 @@ app.post("/roles", async (req, res) => {
       },
     });
     res.status(201).json(newRole);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//fetching github repos
+app.get("/github-repos/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const response = await axios.get(
+      `https://api.github.com/users/${username}/repos`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//chat with twilio
+app.post("/send-message", async (req, res) => {
+  try {
+    const { to, message } = req.body;
+    const response = await client.messages.create({
+      body: message,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to,
+    });
+    res.json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
