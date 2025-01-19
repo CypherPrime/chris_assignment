@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
   res.send("Employee Directory API");
 });
 
+//app routes
 // Fetch all employees
 app.get("/employees", async (req, res) => {
   try {
@@ -62,6 +63,35 @@ app.post("/employees", async (req, res) => {
       },
     });
     res.status(201).json(newEmployee);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+// Add a new department
+app.post("/departments", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newDepartment = await prisma.department.create({
+      data: {
+        name,
+      },
+    });
+    res.status(201).json(newDepartment);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+// Add a new role
+app.post("/roles", async (req, res) => {
+  try {
+    const { title, salary } = req.body;
+    const newRole = await prisma.role.create({
+      data: {
+        title,
+        salary,
+      },
+    });
+    res.status(201).json(newRole);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
